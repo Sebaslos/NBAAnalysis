@@ -12,6 +12,14 @@ public class MessageFactory {
 		messages.add(message);
 	}
 
+	public static synchronized void write(String info) {
+		messages.add(new Message(Message.INFO, info));
+	}
+
+	public static synchronized void writeProcess() {
+		messages.add(new Message(Message.PROCESS));
+	}
+
 	public static synchronized Message read() {
 		if (messages.isEmpty()) {
 			return new Message(Message.EMPTY);

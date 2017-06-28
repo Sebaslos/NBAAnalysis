@@ -52,9 +52,15 @@ public class DBService {
 		Query query = session.createQuery(hql)
 						.setParameter("title", title)
 						.setParameter("type", type);
-		Season season = (Season) query.getSingleResult();
-		session.close();
-		return season;
+		try {
+			Season season = (Season) query.getSingleResult();
+			session.close();
+			return season;
+		} catch (Exception e) {
+			session.close();
+			return null;
+		}
+
 	}
 
 	public Team findTeamByAbbr(String abbr) {

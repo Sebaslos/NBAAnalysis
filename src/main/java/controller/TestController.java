@@ -87,13 +87,13 @@ public class TestController {
 	@RequestMapping(value = "/alldata", method = RequestMethod.POST)
 	public ResponseEntity importData(@RequestParam("season") String season, @RequestParam("seasonType") String seasonType) {
 		System.out.println(season + " " +seasonType);
-		for (int i = 0; i < 100; i++) {
-			Message message = new Message(Message.INFO, "lol " + i);
+		for (int i = 0; i < 60; i++) {
+			Message message = new Message(Message.INFO, "lol " + i + 1);
 			System.out.println("message: " + message.getInfo() + " size: " + MessageFactory.size());
 			MessageFactory.write(message);
-
+			MessageFactory.writeProcess();
 			try {
-				Thread.sleep(300L);
+				Thread.sleep(200L);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

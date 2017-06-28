@@ -7,6 +7,7 @@ import json.Shotchart;
 import json.TeamInfo;
 import model.*;
 import service.DBService;
+import util.MessageFactory;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,8 +36,10 @@ public class DataImportUtil {
 
 		// get all teams in a season
 		System.out.println("getting team list ... ");
+		MessageFactory.write("getting team list ... ");
 		List<TeamInfo> teamInfoList = teamUtil.getTeamList();
 		System.out.println("get " + teamInfoList.size() + " teams data");
+		MessageFactory.write("get " + teamInfoList.size() + " teams data");
 
 		List<Team> teamList = new ArrayList<>();
 		for (TeamInfo teamInfo : teamInfoList) {
@@ -45,9 +48,11 @@ public class DataImportUtil {
 			Team team = dbService.findById(Long.valueOf(teamInfo.getTeamId()), Team.class);
 			if (team != null) {
 				System.out.println("team " + teamInfo.getAbbreviation() + " is already in database");
+				MessageFactory.write("team " + teamInfo.getAbbreviation() + " is already in database");
 			} else {
 				// get team common information
 				System.out.println("getting team " + teamInfo.getAbbreviation() + " common information ... ");
+				MessageFactory.write("import team " + teamInfo.getAbbreviation());
 				TeamInfo info = teamUtil.getTeamInfo(teamInfo.getTeamId(), season.getTitle(), season.getType());
 				System.out.println("getting finished");
 
@@ -61,16 +66,20 @@ public class DataImportUtil {
 			// get roster of team
 			System.out.println("");
 			System.out.println("getting roster of " + team.getName() + " ... ");
+			MessageFactory.write("getting roster of " + team.getName() + " ... ");
 			List<PlayerInfo> playerInfoList = teamUtil.getRoster(String.valueOf(team.getId()), season.getTitle());
 			System.out.println("get " + playerInfoList.size() + " players");
+			MessageFactory.write("get " + playerInfoList.size() + " players of " + team.getName());
 
 			for (PlayerInfo playerInfo : playerInfoList) {
 				Player player = dbService.findById(Long.valueOf(playerInfo.getPersonId()), Player.class);
 				if (player != null) {
 					System.out.println("player " + playerInfo.getName() + " is already in database");
+					MessageFactory.write("player " + playerInfo.getName() + " is already in database");
 				} else {
 					// get player common information
 					System.out.println("getting player " + playerInfo.getName() + " common information ... ");
+					MessageFactory.write("import " + team.getName() + "/" + playerInfo.getName());
 					PlayerInfo info = playerUtil.getPlayerInfo(playerInfo.getPersonId());
 					System.out.println("getting finished");
 
@@ -80,14 +89,21 @@ public class DataImportUtil {
 
 			}
 
+			MessageFactory.writeProcess();		// process + 1
+
 			saveShotData(team, season);
+
+			MessageFactory.writeProcess();		// process + 1
 		}
+
+		MessageFactory.write("import finished");
 	}
 
 
 	private void saveShotData(Team team, Season season) {
 		// get all shotcharts of Team in this season
 		System.out.println("getting all shotcharts of " + team.getName());
+		MessageFactory.write("import all shotcharts of " + team.getName());
 		List<Shotchart> shotcharts = teamUtil.getShotcharts(team.getId().toString(), season.getTitle(), season.getType());
 		System.out.println("getting finished");
 
@@ -241,6 +257,12 @@ public class DataImportUtil {
 		}
 
 		Season s = dbService.findSeason(season.getTitle(), season.getType());
+		if (s == null) {
+			Season newSeason = new Season();
+			newSeason.setTitle(season.getTitle());
+			newSeason.setType(season.getType());
+			s = dbService.add(newSeason);
+		}
 		game.setSeason(s);
 
 		Team htm = dbService.findTeamByAbbr(shotchart.getHtm());

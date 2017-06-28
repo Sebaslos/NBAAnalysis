@@ -6,6 +6,7 @@ public class Message {
 	public static final String EMPTY = "empty";
 	public static final String INFO = "info";
 	public static final String CLOSE = "close";
+	public static final String PROCESS = "process";
 
 	private String type;
 	private String info;
