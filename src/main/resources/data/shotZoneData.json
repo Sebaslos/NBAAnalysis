@@ -1,0 +1,62 @@
+[
+  {
+    "area": "center",
+    "ranges": "8 FT"
+  },
+  {
+    "area": "center",
+    "ranges": "8-16 FT"
+  },
+  {
+    "area": "center",
+    "ranges": "16-24 FT"
+  },
+  {
+    "area": "center",
+    "ranges": "24 FT+"
+  },
+  {
+    "area": "left side",
+    "ranges": "8-16 FT"
+  },
+  {
+    "area": "left side",
+    "ranges": "16-24 FT"
+  },
+  {
+    "area": "left side",
+    "ranges": "24 FT+"
+  },
+  {
+    "area": "left center",
+    "ranges": "16-24 FT"
+  },
+  {
+    "area": "left center",
+    "ranges": "24 FT+"
+  },
+  {
+    "area": "right side",
+    "ranges": "8-16 FT"
+  },
+  {
+    "area": "right side",
+    "ranges": "16-24 FT"
+  },
+  {
+    "area": "right side",
+    "ranges": "24 FT+"
+  },
+  {
+    "area": "right center",
+    "ranges": "16-24 FT"
+  },
+  {
+    "area": "right center",
+    "ranges": "24 FT+"
+  },
+  {
+    "area": "backcourt",
+    "ranges": "24 FT+"
+  }
+]
