@@ -24,4 +24,8 @@ public class MessageFactory {
 		return messages.size();
 	}
 
+	public static synchronized void clearMessage() {
+		messages.clear();
+	}
+
 }

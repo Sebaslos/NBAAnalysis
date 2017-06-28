@@ -1,6 +1,12 @@
 package controller;
 
+import model.Season;
+import nbadatautils.DataImportUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import util.Message;
@@ -40,6 +46,24 @@ public class ImportController {
 		});
 
 		return emitter;
+	}
+
+
+	@RequestMapping(value = "/import", method = RequestMethod.POST)
+	public ResponseEntity importData(@RequestParam("season") String seasonTitle, @RequestParam("seasonType") String seasonType) {
+		Season season = new Season();
+		season.setTitle(seasonTitle);
+		season.setType(seasonType);
+
+		DataImportUtil importUtil = new DataImportUtil();
+
+		MessageFactory.clearMessage();
+
+		importUtil.importData(season);
+
+		MessageFactory.write(new Message(Message.CLOSE));
+
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 
 }

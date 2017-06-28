@@ -44,3 +44,4 @@ hs_err_pid*
 out
 gen
 .gitignore
+src/test/

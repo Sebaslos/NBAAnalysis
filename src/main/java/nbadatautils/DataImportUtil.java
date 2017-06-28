@@ -19,15 +19,14 @@ import java.util.List;
 
 public class DataImportUtil {
 
-	DBService dbService = new DBService();
-	Gson gson = new Gson();
+	private DBService dbService = new DBService();
+	private Gson gson = new Gson();
 
-	PlayerDataUtil playerUtil = new PlayerDataUtil();
-	TeamDataUtil teamUtil = new TeamDataUtil();
+	private PlayerDataUtil playerUtil = new PlayerDataUtil();
+	private TeamDataUtil teamUtil = new TeamDataUtil();
 
-	public void init() {
+	private void init() {
 		importSeasonData();
-//		importShotTypeData();
 		importShotZoneData();
 	}
 
@@ -152,7 +151,6 @@ public class DataImportUtil {
 		System.out.println("shot data save finished");
 	}
 
-	// TODO other import way
 	/**
 	 * 1 + 30 + 30 + 30? + 13*30 + 30 = 511
 	 * first import all team data

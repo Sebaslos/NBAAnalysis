@@ -44,15 +44,15 @@ public class PlayerService extends AbstractService<Player> {
 		return list;
 	}
 
-	public List getTypeShotQuote() {
+	public List getTypeShotQuote(String playerName, String season, String seasonType) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String sql = "SELECT " +
 				"type, madeNum, attemptNum, " +
-				"round(ifnull(madeNum/attemptNum, 0)*100, 1) AS quote " +
+				"    round(ifnull(madeNum/attemptNum, 0)*100, 1) AS quote " +
 				"FROM ( " +
 				"SELECT  " +
 				"ShotType.type, " +
-				"COUNT(CASE WHEN isMade = 1 THEN 1 ELSE NULL END) AS madeNum, " +
+				"COUNT(if(isMade = 1, 1, NULL)) AS madeNum, " +
 				"COUNT(*) AS attemptNum " +
 				"FROM " +
 				"Shot, Player, ShotType, Game, Season " +
@@ -61,14 +61,18 @@ public class PlayerService extends AbstractService<Player> {
 				"Shot.type_id = ShotType.id AND " +
 				"Shot.game_id = Game.id AND " +
 				"Game.season_id = Season.id AND " +
-				"Season.title = '2014-15' AND " +
-				"Season.type ='Regular Season' AND " +
-				"Player.name = 'LeBron James' " +
+				"Season.title = :season AND " +
+				"Season.type = :seasonType AND " +
+				"Player.name = :playerName " +
 				"GROUP BY " +
-				"ShotType.id, ShotType.type " +
-				") AS T";
+				"ShotType.type " +
+				"WITH ROLLUP " +
+				") AS T;";
 
-		NativeQuery query = session.createNativeQuery(sql);
+		NativeQuery query = session.createNativeQuery(sql)
+				.setParameter("playerName", playerName)
+				.setParameter("season", season)
+				.setParameter("seasonType", seasonType);
 		List list = query.getResultList();
 		session.close();
 		return list;

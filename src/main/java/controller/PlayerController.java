@@ -40,9 +40,12 @@ public class PlayerController {
 
 
 	@RequestMapping("/shottype")
-	public ResultSet shottype() {
+	public ResultSet shottype(@RequestParam("playerName") String playerName, @RequestParam("season") String season, @RequestParam("seasonType") String seasonType) {
+		String name = "playerShotTypeQuote";
+		String[] headers = {"type", "FGM", "FGA", "FG%"};
 
-		return null;
+		List<Object[]> rows = playerService.getTypeShotQuote(playerName, season, seasonType);
+		return restUtil.buildResultSet(name, headers, rows);
 	}
 
 	@RequestMapping("/shottypeinzone")
