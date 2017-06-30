@@ -1,5 +1,7 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,9 +12,11 @@ import javax.persistence.Table;
 public class Team {
 
 	@Id
+	@Expose
 	private Long id;
 
 	@Column(nullable = false)
+	@Expose
 	private String name;
 
 	@Column(nullable = false)
