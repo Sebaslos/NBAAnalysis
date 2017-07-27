@@ -21,6 +21,15 @@ public class DBService {
 		return t;
 	}
 
+	public <T> T update(T t) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.update(t);
+		session.getTransaction().commit();
+		session.close();
+		return t;
+	}
+
 	public <T> T findById(Long id, Class<T> type) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		T object = session.get(type, id);

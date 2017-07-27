@@ -49,7 +49,7 @@
     </properties>
 
     <build>
-        <finalName>RestTemplateTest</finalName>
+        <finalName>NBAAnalyse</finalName>
 
         <plugins>
             <plugin>

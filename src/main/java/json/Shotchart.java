@@ -35,6 +35,9 @@ public class Shotchart {
 	@SerializedName("ACTION_TYPE")
 	private String shotType;
 
+	@SerializedName("SHOT_TYPE")
+	private String type;
+
 	@SerializedName("SHOT_ZONE_BASIC")
 	private String shotZoneBasic;
 
@@ -139,6 +142,14 @@ public class Shotchart {
 
 	public String getShotType() {
 		return shotType;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void setShotType(String shotType) {

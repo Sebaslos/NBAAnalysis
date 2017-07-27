@@ -177,8 +177,8 @@ public class DataImportUtil {
 	 * 1 + 30 + 30 + 13*30 + 13*30 = 841
 	 */
 
-	private String parseRange(int range) {
-		if (range < 8) {
+	private String parseRange(String range) {
+/*		if (range < 8) {
 			return "8 FT";
 		} else if (range >= 8 && range < 16) {
 			return "8-16 FT";
@@ -186,6 +186,17 @@ public class DataImportUtil {
 			return "16-24 FT";
 		} else {
 			return "24 FT+";
+		}*/
+
+		switch (range) {
+			case "Less Than 8 ft.":
+				return "8 FT";
+			case "8-16 ft.":
+				return "8-16 FT";
+			case "16-24 ft.":
+				return "16-24 FT";
+			default:
+				return "24 FT+";
 		}
 	}
 
@@ -195,7 +206,7 @@ public class DataImportUtil {
 		String ranges;
 
 		String a = shotchart.getShotZoneArea();
-		int r = shotchart.getDistance();
+//		int r = shotchart.getDistance();
 
 		switch (shotchart.getShotZoneBasic()) {
 			case "Restricted Area":
@@ -238,7 +249,7 @@ public class DataImportUtil {
 				area = "backcourt";
 				break;
 		}
-		ranges = parseRange(r);
+		ranges = parseRange(shotchart.getShotZoneRange());
 		String title = area + " " + ranges;
 		zone = dbService.findByTitle(title, ShotZone.class);
 

@@ -2,15 +2,19 @@ package test;
 
 
 import db.HibernateUtil;
+import json.Shotchart;
 import model.*;
 import nbadatautils.DataImportUtil;
 import nbadatautils.NBADataUtil;
 import nbadatautils.PlayerDataUtil;
 import nbadatautils.TeamDataUtil;
 import org.hibernate.Session;
+import service.DBService;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Test {
 
@@ -95,6 +99,94 @@ public class Test {
 		dbAdd(shot);
 	}
 
+	private static String parseRange(String range) {
+/*		if (range < 8) {
+			return "8 FT";
+		} else if (range >= 8 && range < 16) {
+			return "8-16 FT";
+		} else if (range >= 16 && range < 24) {
+			if (area.equals("left side") || area.equals("right side")) {
+				if (range > 21) {
+					return "24 FT+";
+				}
+			}
+			return "16-24 FT";
+		} else {
+			return "24 FT+";
+		}*/
+
+		if (range.equals("Less Than 8 ft.")) {
+			return "8 FT";
+		} else if (range.equals("8-16 ft.")) {
+			return "8-16 FT";
+		} else if (range.equals("16-24 ft.")) {
+			return "16-24 FT";
+		} else {
+			return "24 FT+";
+		}
+	}
+
+
+	public static void updateZone() {
+		DBService dbService = new DBService();
+		PlayerDataUtil playerUtil = new PlayerDataUtil();
+		List<Shotchart> shotcharts = playerUtil.getShotcharts("2544", "2014-15");
+
+		String odate = "";
+		int i = 0;
+		int sum = 0;
+		int is = 0;
+
+		int n = 0;
+		for (Shotchart shotchart : shotcharts) {
+			String id = shotchart.getGameId() + shotchart.getGameEventId();
+			Shot shot = dbService.findById(Long.valueOf(id), Shot.class);
+
+			if (shot != null) {
+				ShotZone shotZone = shot.getShotZone();
+				String area = shotZone.getArea();
+				String ranges = parseRange(shotchart.getShotZoneRange());
+
+				String title = area + " " + ranges;
+				ShotZone zone = dbService.findByTitle(title, ShotZone.class);
+
+				shot.setShotZone(zone);
+				dbService.update(shot);
+			}
+
+/*			n++;
+
+			if (shotchart.getType().equals("3PT Field Goal")) {
+				sum++;
+			}
+
+			String date = shotchart.getGameDate();
+			if (odate.equals(date)) {
+				if (shotchart.getType().equals("3PT Field Goal")) {
+					i++;
+				}
+
+				if (n == shotcharts.size()) {
+					System.out.println(date + ": " + i);
+					is += i;
+				}
+
+			} else {
+				System.out.println(odate + ": " + i);
+				odate = date;
+
+				is += i;
+
+				i = 0;
+
+				if (shotchart.getType().equals("3PT Field Goal")) {
+					i++;
+				}
+			}*/
+		}
+
+	}
+
 	public static void main(String[] args) {
 //		init();
 //		TestService service = new TestService();
@@ -102,8 +194,9 @@ public class Test {
 
 //		show();
 
-		importData();
+//		importData();
 
+//		updateZone();
 	}
 
 	public  static void importData() {
@@ -205,7 +298,7 @@ public class Test {
 //		vars.put("GameID", "0021501195");   // bz
 //		vars.put("GameID", "");
 //		vars.put("LeagueID", "00");
-//		vars.put("Season", "2013-14");
+//		vars.put("Season", "2014-15");
 //		vars.put("SeasonType", "Regular Season");
 //		vars.put("Outcome", "");
 //		vars.put("Location", "");
@@ -229,6 +322,7 @@ public class Test {
 //		output(util.getResultAsString("shotchartdetail", vars));
 
 //		output(playerUtil.getShotcharts("2544", "2014-15"));
+//		output(teamUtil.getShotcharts("1610612739", "2014-15", "Regular Season"));
 	}
 
 }

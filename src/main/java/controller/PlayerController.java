@@ -30,7 +30,9 @@ public class PlayerController {
 	}
 
 	@RequestMapping("/shotzone")
-	public ResultSet shotzone(@RequestParam("playerName") String playerName, @RequestParam("season") String season, @RequestParam("seasonType") String seasonType) {
+	public ResultSet shotzone(@RequestParam("playerName") String playerName,
+	 						  @RequestParam("season") String season,
+							  @RequestParam("seasonType") String seasonType) {
 		String name = "playerShotZoneQuote";
 		String[] headers = {"zone", "FGM", "FGA", "FG%"};
 

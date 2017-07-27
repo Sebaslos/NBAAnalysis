@@ -62,7 +62,7 @@ public class TestController {
 		return util.buildResultSet(name, headers, rows);
 	}*/
 
-	@RequestMapping("/team3point")
+/*	@RequestMapping("/team3point")
 	public ResultSet team3point() {
 		String name = "Team3PointShotTrend";
 		String[] headers = {"team", "month", "date", "3PA", "FGA"};
@@ -71,9 +71,9 @@ public class TestController {
 		List<Object[]> rows = teamService.get3PointShotTrend();
 
 		return util.buildResultSet(name, headers, rows);
-	}
+	}*/
 
-	@RequestMapping("/team3points")
+/*	@RequestMapping("/team3points")
 	public ResultSet team3point(@RequestParam("teamName") String teamName, @RequestParam("season") String season, @RequestParam("seasonType") String seasonType) {
 		String name = "Team3PointShotTrend";
 		String[] headers = {"team", "month", "date", "3PA", "FGA"};
@@ -82,7 +82,7 @@ public class TestController {
 		List<Object[]> rows = teamService.get3PointShotTrend(teamName, season, seasonType);
 
 		return util.buildResultSet(name, headers, rows);
-	}
+	}*/
 
 	@RequestMapping(value = "/alldata", method = RequestMethod.POST)
 	public ResponseEntity importData(@RequestParam("season") String season, @RequestParam("seasonType") String seasonType) {
