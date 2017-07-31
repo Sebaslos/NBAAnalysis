@@ -27,7 +27,7 @@ public class DataImportUtil {
 	private TeamDataUtil teamUtil = new TeamDataUtil();
 
 	private void init() {
-		importSeasonData();
+//		importSeasonData();
 		importShotZoneData();
 	}
 
@@ -79,7 +79,7 @@ public class DataImportUtil {
 				} else {
 					// get player common information
 					System.out.println("getting player " + playerInfo.getName() + " common information ... ");
-					MessageFactory.write("import " + team.getName() + "/" + playerInfo.getName());
+					MessageFactory.write("importing " + team.getName() + "/" + playerInfo.getName());
 					PlayerInfo info = playerUtil.getPlayerInfo(playerInfo.getPersonId());
 					System.out.println("getting finished");
 
@@ -103,7 +103,7 @@ public class DataImportUtil {
 	private void saveShotData(Team team, Season season) {
 		// get all shotcharts of Team in this season
 		System.out.println("getting all shotcharts of " + team.getName());
-		MessageFactory.write("import all shotcharts of " + team.getName());
+		MessageFactory.write("importing shotcharts of " + team.getName());
 		List<Shotchart> shotcharts = teamUtil.getShotcharts(team.getId().toString(), season.getTitle(), season.getType());
 		System.out.println("getting finished");
 
@@ -113,6 +113,7 @@ public class DataImportUtil {
 
 			Shot shot = dbService.findById(Long.valueOf(id), Shot.class);
 			if (shot != null) {
+				System.out.println("double shot id: " + id + " .............................................");
 				continue;
 			} else {
 				shot = new Shot();
@@ -124,7 +125,10 @@ public class DataImportUtil {
 			// set player
 			Player player = dbService.findById(Long.valueOf(shotchart.getPlayerId()), Player.class);
 			if (player == null) {
+				System.out.println("getting player " + shotchart.getPlayerName() + " common information ... ");
+				MessageFactory.write("importing " + team.getName() + "/" + shotchart.getPlayerName());
 				PlayerInfo info = playerUtil.getPlayerInfo(shotchart.getPlayerId());
+				MessageFactory.write("importing shotcharts of " + team.getName());
 				player = savePlayerData(info);
 			}
 			shot.setPlayer(player);

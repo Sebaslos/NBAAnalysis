@@ -59,7 +59,12 @@ public class ImportController {
 
 		MessageFactory.clearMessage();
 
+		long start = System.currentTimeMillis();
+
 		importUtil.importData(season);
+
+		long end = System.currentTimeMillis();
+		System.out.println("dauert: " + (end-start) / 1000 + " seconds");
 
 		MessageFactory.write(new Message(Message.CLOSE));
 

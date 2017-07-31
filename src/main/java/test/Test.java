@@ -192,7 +192,7 @@ public class Test {
 //		TestService service = new TestService();
 //		service.insertData();
 
-//		show();
+		show();
 
 //		importData();
 
@@ -214,7 +214,7 @@ public class Test {
 		TeamDataUtil teamUtil = new TeamDataUtil();
 
 		// player information
-//		System.out.println(playerUtil.getPlayerInfo("201935"));
+		System.out.println(playerUtil.getPlayerInfo("201935"));
 //		System.out.println(playerUtil.getPlayerInfo("201566"));
 
 //		System.out.println(playerUtil.getPlayerInfo("203946"));

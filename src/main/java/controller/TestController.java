@@ -86,6 +86,8 @@ public class TestController {
 
 	@RequestMapping(value = "/alldata", method = RequestMethod.POST)
 	public ResponseEntity importData(@RequestParam("season") String season, @RequestParam("seasonType") String seasonType) {
+		long start = System.currentTimeMillis();
+
 		System.out.println(season + " " +seasonType);
 		for (int i = 0; i < 60; i++) {
 			Message message = new Message(Message.INFO, "lol " + i + 1);
@@ -100,6 +102,9 @@ public class TestController {
 		}
 		MessageFactory.write(new Message(Message.CLOSE));
 		System.out.println("message: close");
+
+		long end = System.currentTimeMillis();
+		System.out.println("dauert: " + (end-start) / 1000 );
 
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}

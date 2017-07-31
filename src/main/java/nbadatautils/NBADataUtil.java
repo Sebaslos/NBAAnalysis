@@ -4,6 +4,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -34,10 +37,18 @@ public class NBADataUtil {
 				"Chrome/45.0.2454.101 Safari/537.36");
 		HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = getRestTemplate();
 		ResponseEntity<String> result = restTemplate.exchange(url, HttpMethod.GET, entity, String.class, endpoint);
 
 		return result.getBody();
+	}
+
+	private RestTemplate getRestTemplate() {
+		RestTemplate restTemplate = new RestTemplate();
+		((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setConnectTimeout(30 * 1000);
+		((SimpleClientHttpRequestFactory)restTemplate.getRequestFactory()).setReadTimeout(30 * 1000);
+
+		return restTemplate;
 	}
 
 	private String getUrl(Map<String, String> params) {
